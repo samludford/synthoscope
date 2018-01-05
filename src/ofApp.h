@@ -64,24 +64,11 @@ class ofApp : public ofBaseApp{
     const double FM2_FREQ_DEF {500};
     const double FM2_INDEX_DEF {1000};
     const double FM2_AMOUNT_DEF {1.};
-    
-//    double am1_amount {1};
-//    double am1_freq {13};
-    
-//    double am2_amount {1};
-//    double am2_freq {131};
-    
-    const double FILTER_CUTOFF_DEF {4000};
-    const double FILTER_RES_DEF {40};
 		
     maxiOsc op1;
     maxiOsc op2;
     maxiOsc fm1;
     maxiOsc fm2;
-//    maxiOsc am1;
-//    maxiOsc am2;
-    
-//    maxiOsc lfo1, lfo2, lfo3, lfo4;
 
     maxiFilter filter;
 };
