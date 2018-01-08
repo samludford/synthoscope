@@ -63,9 +63,14 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
     
+    
     ofPushMatrix();
-    float scale = 100;
+    float scale = 200;
+    // move coord system to the middle of the canvas
     ofTranslate(ofGetWidth()/2, ofGetHeight()/2);
+    
+    // draw a curve through each value in the buffer, where the amplitude is represented in
+    // polar coordinates as radius, with the angle incremented at a constant rate
     ofPolyline line;
     double angle;
     for(int i = 0 ; i < bufferSize ; i++) {
@@ -75,6 +80,7 @@ void ofApp::draw(){
     line.draw();
     ofPopMatrix();
     
+    // draw the gui
     gui.draw();
 }
 
@@ -83,17 +89,21 @@ void ofApp::audioOut(float * output, int bufferSize, int nChannels) {
     
     for (int i = 0; i < bufferSize; i++){
         
+        // get the output of the modulating oscillators (fm1, fm2)
         double fm1_out = fm1.sinewave(fm1_freq) * fm1_index * fm1_amount;
         double fm2_out = fm2.sinewave(fm2_freq) * fm2_index * fm2_amount;
         
+        // apply the modulating signals to the carriers (op1, op2)
         double op1_out = op1.sinewave(op1_freq + fm1_out);
         double op2_out = op2.sinewave(op2_freq + fm2_out);
         
+        // add the two signals together, scaling according to volume settings
         double mix = ((op1_out * op1_amp) + (op2_out * op2_amp))*0.5;
 
         output[i*nChannels    ] = mix;
         output[i*nChannels + 1] = mix;
         
+        // store audio data in a buffer to be used for drawing
         display_buffer[i] = mix;
 
     }
